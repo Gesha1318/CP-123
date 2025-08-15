@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{ section.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+	<h1 class="h3">{{ section.name }}</h1>
+	<div>
+		{% if request.user.is_staff %}
+		<a href="/{{ section.slug }}/edit/" class="btn btn-sm btn-outline-dark">Редактировать</a>
+		<a href="/{{ section.slug }}/members/" class="btn btn-sm btn-outline-dark">Права доступа</a>
+		{% endif %}
+		<a href="/documents/{{ section.slug }}/articles/new/" class="btn btn-sm btn-outline-primary">Новая статья</a>
+		<a href="/documents/{{ section.slug }}/files/upload/" class="btn btn-sm btn-outline-secondary">Загрузить файл</a>
+	</div>
+</div>
+<p class="text-muted">{{ section.description }}</p>
+
+<h2 class="h5 mt-4">Статьи</h2>
+<ul class="list-group mb-4">
+	{% for article in section.articles.all %}
+		<li class="list-group-item">{{ article.title }} <small class="text-muted">— {{ article.created_at|date:"d.m.Y H:i" }}</small></li>
+	{% empty %}
+		<li class="list-group-item text-muted">Нет статей</li>
+	{% endfor %}
+</ul>
+
+<h2 class="h5">Файлы</h2>
+<ul class="list-group">
+	{% for f in section.files.all %}
+		<li class="list-group-item"><a href="{{ f.file.url }}" target="_blank">{{ f.title }}</a> <small class="text-muted">— {{ f.created_at|date:"d.m.Y H:i" }}</small></li>
+	{% empty %}
+		<li class="list-group-item text-muted">Нет файлов</li>
+	{% endfor %}
+</ul>
+{% endblock %}

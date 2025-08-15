@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Администрирование — Интранет{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Интранет — админка</a></h1>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+:root { --brand-color: #3b82f6; }
+#header { background: var(--brand-color); }
+#header a:link, #header a:visited { color: #fff; }
+.module h2, .module caption { color: #111; }
+.button, input[type=submit], .submit-row input { background: var(--brand-color); border-color: var(--brand-color); }
+</style>
+{% endblock %}

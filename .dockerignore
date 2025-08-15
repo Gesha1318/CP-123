@@ -1,0 +1,29 @@
+# VCS
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual envs
+.venv/
+venv/
+
+# Logs
+*.log
+django_server.log
+
+# SQLite DB
+*.sqlite3
+db.sqlite3
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Django static/media build outputs
+staticfiles/
+media/

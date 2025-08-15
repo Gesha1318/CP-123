@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Разделы{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+	<h1 class="h3">Разделы</h1>
+	<a href="/admin/sections/section/add/" class="btn btn-sm btn-primary">Создать раздел</a>
+</div>
+<div class="list-group">
+	{% for section in sections %}
+		<a class="list-group-item list-group-item-action" href="/{{ section.slug }}/">{{ section.name }}{% if section.is_private %} 🔒{% endif %}</a>
+	{% empty %}
+		<div class="text-muted">Нет доступных разделов</div>
+	{% endfor %}
+</div>
+{% endblock %}
