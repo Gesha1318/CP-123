@@ -193,3 +193,4 @@ REST_FRAMEWORK = {
 
 # CORS (adjust if needed for your LAN)
 CORS_ALLOW_ALL_ORIGINS = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
