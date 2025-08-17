@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build:
@@ -6,9 +8,37 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./:/app
+      - ./intranet:/app/intranet
+      - static_volume:/app/intranet/staticfiles
+      - media_volume:/app/intranet/media
+    environment:
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-b3b=36=mj&)@a+k=hmi)9psg^x%n9a@mx2ombl+lzfb5^i5fh%}
+      - DEBUG=${DEBUG:-False}
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1,0.0.0.0}
+      - DATABASE_ENGINE=${DATABASE_ENGINE:-django.db.backends.sqlite3}
+      - DATABASE_NAME=${DATABASE_NAME:-db.sqlite3}
+      - CORS_ALLOW_ALL_ORIGINS=${CORS_ALLOW_ALL_ORIGINS:-True}
     working_dir: /app/intranet
-    command: sh -c "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
-    stdin_open: true
-    tty: true
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "manage.py", "check"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add PostgreSQL service for production
+  # db:
+  #   image: postgres:15
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=intranet
+  #     - POSTGRES_USER=intranet
+  #     - POSTGRES_PASSWORD=intranet_password
+  #   restart: unless-stopped
+
+volumes:
+  static_volume:
+  media_volume:
+  # postgres_data:
