@@ -20,6 +20,7 @@ class Article(models.Model):
 	is_published = models.BooleanField("Опубликовано", default=True)
 	created_at = models.DateTimeField("Создано", auto_now_add=True)
 	updated_at = models.DateTimeField("Обновлено", auto_now=True)
+	attachment = models.FileField("Вложение (PDF)", upload_to=upload_to_article, null=True, blank=True)
 
 	class Meta:
 		unique_together = ('section', 'slug')
@@ -29,6 +30,9 @@ class Article(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	def get_absolute_url(self):
+		return f"/documents/{self.section.slug}/{self.slug}/"
 
 
 class File(models.Model):

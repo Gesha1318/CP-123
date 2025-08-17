@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.contrib import messages
 from .models import Section
 from .forms import SectionForm
 from accounts.models import SectionMembership
-from accounts.forms import SectionMembershipForm
+
 
 
 def is_staff(user):
@@ -25,6 +25,8 @@ def section_detail(request, slug):
 	if section.is_private and not SectionMembership.objects.filter(user=request.user, section=section).exists():
 		return render(request, '403.html', status=403)
 	members = SectionMembership.objects.filter(section=section).select_related('user', 'role')
+	# show only published articles
+	section = Section.objects.get(pk=section.pk)  # refresh instance
 	return render(request, 'sections/section_detail.html', { 'section': section, 'members': members })
 
 
@@ -50,30 +52,22 @@ def section_edit(request, slug):
 		form = SectionForm(request.POST, instance=section)
 		if form.is_valid():
 			form.save()
-			messages.success(request, 'Раздел обновлен')
+			messages.success(request, 'Сохранено')
 			return redirect('sections:section_detail', slug=section.slug)
 	else:
 		form = SectionForm(instance=section)
 	return render(request, 'sections/section_form.html', { 'form': form, 'section': section })
 
 
-@user_passes_test(is_staff)
 @login_required
 def section_members(request, slug):
 	section = get_object_or_404(Section, slug=slug)
+	if not request.user.is_staff:
+		return render(request, '403.html', status=403)
 	if request.method == 'POST':
-		form = SectionMembershipForm(request.POST)
-		if form.is_valid():
-			membership, _ = SectionMembership.objects.update_or_create(
-				user=form.cleaned_data['user'], section=section,
-				defaults={
-					'permission': form.cleaned_data['permission'],
-					'role': form.cleaned_data['role'],
-				}
-			)
-			messages.success(request, 'Права доступа обновлены')
-			return redirect('sections:section_members', slug=section.slug)
-	else:
-		form = SectionMembershipForm()
-	memberships = SectionMembership.objects.filter(section=section).select_related('user', 'role')
-	return render(request, 'sections/section_members.html', { 'section': section, 'form': form, 'memberships': memberships })
+		user_id = request.POST.get('user_id')
+		permission = request.POST.get('permission')
+		if user_id and permission in [SectionMembership.PERMISSION_VIEW, SectionMembership.PERMISSION_EDIT, SectionMembership.PERMISSION_MANAGE]:
+			SectionMembership.objects.get_or_create(user_id=user_id, section=section, defaults={'permission': permission})
+			messages.success(request, 'Права обновлены')
+	return render(request, 'sections/section_members.html', { 'section': section, 'members': SectionMembership.objects.filter(section=section) })

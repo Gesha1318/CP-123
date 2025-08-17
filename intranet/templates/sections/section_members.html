@@ -4,30 +4,41 @@
 <h1 class="h4">Права доступа: {{ section.name }}</h1>
 <form method="post" class="mt-3">
 	{% csrf_token %}
-	{{ form.as_p }}
-	<button type="submit" class="btn btn-primary">Добавить/обновить</button>
+	<div class="mb-3">
+		<label class="form-label">ID пользователя</label>
+		<input type="number" name="user_id" class="form-control" required>
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Права</label>
+		<select name="permission" class="form-select">
+			<option value="view">Просмотр</option>
+			<option value="edit">Редактирование</option>
+			<option value="manage">Управление</option>
+		</select>
+	</div>
+	<button type="submit" class="btn btn-primary">Сохранить</button>
 </form>
-<hr>
-<table class="table table-sm mt-3">
+
+<table class="table table-sm mt-4">
 	<thead>
 		<tr>
 			<th>Пользователь</th>
 			<th>Роль</th>
-			<th>Доступ</th>
-			<th>Создан</th>
+			<th>Права</th>
+			<th>Создано</th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for m in memberships %}
+	{% for m in members %}
 		<tr>
 			<td>{{ m.user.username }}</td>
 			<td>{{ m.role }}</td>
 			<td>{{ m.get_permission_display }}</td>
 			<td>{{ m.created_at|date:"d.m.Y H:i" }}</td>
 		</tr>
-		{% empty %}
-		<tr><td colspan="4" class="text-muted">Нет участников</td></tr>
-		{% endfor %}
+	{% empty %}
+		<tr><td colspan="4" class="text-muted">Нет данных</td></tr>
+	{% endfor %}
 	</tbody>
 </table>
 {% endblock %}

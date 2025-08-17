@@ -15,13 +15,23 @@ def create_article(request, section_slug):
 		title = request.POST.get('title', '').strip()
 		slug = request.POST.get('slug', '').strip()
 		content = request.POST.get('content', '').strip()
+		attachment = request.FILES.get('attachment')
 		if not title or not slug:
 			messages.error(request, 'Укажите заголовок и URL-метку')
 		else:
-			Article.objects.create(section=section, title=title, slug=slug, content=content, author=request.user)
+			article = Article.objects.create(section=section, title=title, slug=slug, content=content, author=request.user, attachment=attachment)
 			messages.success(request, 'Статья создана')
-			return redirect('sections:section_detail', slug=section.slug)
+			return redirect(article.get_absolute_url())
 	return render(request, 'documents/create_article.html', { 'section': section })
+
+
+@login_required
+def article_detail(request, section_slug, article_slug):
+	section = get_object_or_404(Section, slug=section_slug)
+	if section.is_private and not SectionMembership.objects.filter(user=request.user, section=section).exists():
+		return render(request, '403.html', status=403)
+	article = get_object_or_404(Article, section=section, slug=article_slug, is_published=True)
+	return render(request, 'documents/article_detail.html', { 'section': section, 'article': article })
 
 
 @login_required

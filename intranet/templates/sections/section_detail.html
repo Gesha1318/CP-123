@@ -17,7 +17,13 @@
 <h2 class="h5 mt-4">Статьи</h2>
 <ul class="list-group mb-4">
 	{% for article in section.articles.all %}
-		<li class="list-group-item">{{ article.title }} <small class="text-muted">— {{ article.created_at|date:"d.m.Y H:i" }}</small></li>
+		<li class="list-group-item">
+			<a href="/documents/{{ section.slug }}/articles/{{ article.slug }}/">{{ article.title }}</a>
+			{% if article.attachment %}
+				<small class="text-muted"> — есть вложение (PDF)</small>
+			{% endif %}
+			<small class="text-muted"> — {{ article.created_at|date:"d.m.Y H:i" }}</small>
+		</li>
 	{% empty %}
 		<li class="list-group-item text-muted">Нет статей</li>
 	{% endfor %}
