@@ -10,14 +10,14 @@ class RoleAdmin(admin.ModelAdmin):
 	list_filter = ("created_at",)
 	ordering = ("name",)
 	
-	# Use custom templates for beautiful styling
-	change_form_template = "admin/custom_form.html"
+	# Use specific custom templates for beautiful styling
+	change_form_template = "admin/accounts/role/change_form.html"
 	change_list_template = "admin/custom_change_list.html"
 
 
 class SectionMembershipInline(admin.TabularInline):
 	model = SectionMembership
-	extra = 0
+	extra = 1
 	autocomplete_fields = ("section", "role")
 	fields = ("section", "permission", "role")
 
@@ -29,8 +29,8 @@ class SectionMembershipAdmin(admin.ModelAdmin):
 	search_fields = ("user__username", "section__name", "role__name")
 	ordering = ("-joined_at",)
 	
-	# Use custom templates for beautiful styling
-	change_form_template = "admin/custom_form.html"
+	# Use specific custom templates for beautiful styling
+	change_form_template = "admin/accounts/sectionmembership/change_form.html"
 	change_list_template = "admin/custom_change_list.html"
 
 

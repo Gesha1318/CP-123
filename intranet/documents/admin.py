@@ -10,8 +10,8 @@ class ArticleAdmin(admin.ModelAdmin):
 	prepopulated_fields = {"slug": ("title",)}
 	ordering = ("-created_at",)
 	
-	# Use custom templates for beautiful styling
-	change_form_template = "admin/custom_form.html"
+	# Use specific custom templates for beautiful styling
+	change_form_template = "admin/documents/article/change_form.html"
 	change_list_template = "admin/custom_change_list.html"
 
 
@@ -22,6 +22,6 @@ class FileAdmin(admin.ModelAdmin):
 	search_fields = ("name", "article__title")
 	ordering = ("-uploaded_at",)
 	
-	# Use custom templates for beautiful styling
-	change_form_template = "admin/custom_form.html"
+	# Use specific custom templates for beautiful styling
+	change_form_template = "admin/documents/file/change_form.html"
 	change_list_template = "admin/custom_change_list.html"
