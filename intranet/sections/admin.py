@@ -16,6 +16,3 @@ class SectionAdmin(admin.ModelAdmin):
 	search_fields = ("name", "slug")
 	prepopulated_fields = {"slug": ("name",)}
 	inlines = [ChildSectionInline]
-	
-	# Use custom template for better styling
-	change_form_template = "admin/sections/section/change_form.html"
