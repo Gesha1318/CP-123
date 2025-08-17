@@ -1,5 +1,172 @@
 /* Custom Admin Styles for Django Intranet */
 
+/* Dashboard styles */
+.dashboard {
+    padding: 20px;
+}
+
+.welcome-message {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.welcome-message h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: 300;
+}
+
+.welcome-message p {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #6c757d;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.quick-actions {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.quick-actions h2 {
+    margin: 0 0 15px 0;
+    color: #495057;
+    font-size: 18px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.action-btn:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+.action-btn.success {
+    background: #28a745;
+}
+
+.action-btn.success:hover {
+    background: #1e7e34;
+}
+
+.action-btn.warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.action-btn.warning:hover {
+    background: #e0a800;
+}
+
+/* Module styles */
+.module {
+    margin-bottom: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.module h2 {
+    background: #f8f9fa;
+    color: #495057;
+    padding: 15px 20px;
+    margin: 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.module h3 {
+    background: #e9ecef;
+    color: #6c757d;
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.module ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.module li {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f8f9fa;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.module li:last-child {
+    border-bottom: none;
+}
+
+.module li:hover {
+    background-color: #f8f9fa;
+}
+
+.module a {
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+}
+
+.module a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
 /* Form styling */
 .form-group {
     margin-bottom: 1.5rem;
@@ -175,21 +342,106 @@ fieldset.module h2 {
     margin-bottom: 1rem;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .form-group {
-        padding: 0.75rem;
-    }
-    
-    .submit-row input[type="submit"] {
-        width: 100%;
-        margin-bottom: 0.5rem;
-        margin-right: 0;
-    }
-    
-    fieldset.module {
-        padding: 1rem;
-    }
+/* Object tools */
+.object-tools {
+    margin-bottom: 1rem;
+}
+
+.object-tools a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 0.25rem;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.object-tools a:hover {
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+}
+
+.object-tools a.addlink {
+    background-color: #28a745;
+}
+
+.object-tools a.addlink:hover {
+    background-color: #1e7e34;
+}
+
+/* Results table */
+.results {
+    margin-top: 1rem;
+}
+
+.results table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.results th {
+    background-color: #f8f9fa;
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+}
+
+.results td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: top;
+}
+
+.results tr:hover {
+    background-color: #f8f9fa;
+}
+
+.field-get_absolute_url a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.field-get_absolute_url a:hover {
+    text-decoration: underline;
+}
+
+.field-is_published .true {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.field-is_published .false {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.field-is_private .true {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.field-is_private .false {
+    color: #6c757d;
+}
+
+/* Form row */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.form-row > .col,
+.form-row > [class*="col-"] {
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 /* Custom field types */
@@ -281,4 +533,34 @@ fieldset.module h2 {
     background-color: #d1ecf1;
     color: #0c5460;
     border: 1px solid #bee5eb;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .form-group {
+        padding: 0.75rem;
+    }
+    
+    .submit-row input[type="submit"] {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        margin-right: 0;
+    }
+    
+    fieldset.module {
+        padding: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-btn {
+        width: 100%;
+        text-align: center;
+    }
 }

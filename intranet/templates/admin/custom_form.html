@@ -8,59 +8,7 @@
 
 {% block extrastyle %}{{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
-<style>
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    .form-group.errors {
-        border-left: 3px solid #dc3545;
-        padding-left: 10px;
-    }
-    .form-group.hidden {
-        display: none;
-    }
-    .text-red {
-        color: #dc3545;
-    }
-    .readonly {
-        background-color: #f8f9fa;
-        padding: 0.375rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        min-height: 38px;
-        display: flex;
-        align-items: center;
-    }
-    .fieldBox {
-        padding: 0.375rem 0.75rem;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        background-color: #fff;
-    }
-    .fieldBox:focus {
-        border-color: #80bdff;
-        outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    }
-    .description {
-        margin-bottom: 1rem;
-        padding: 0.75rem;
-        background-color: #e9ecef;
-        border-left: 4px solid #007bff;
-        border-radius: 0.25rem;
-    }
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        margin-right: -5px;
-        margin-left: -5px;
-    }
-    .form-row > .col,
-    .form-row > [class*="col-"] {
-        padding-right: 5px;
-        padding-left: 5px;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{% static "css/admin-custom.css" %}">
 {% endblock %}
 
 {% block coltype %}colM{% endblock %}
@@ -99,10 +47,11 @@
     {% endif %}
     
     {% for line in fieldset %}
-    <div class="form-group{% if line.fields|length == 1 and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
+    {% with line.fields|length as field_count %}
+    <div class="form-group{% if field_count == 1 and line.errors %} errors{% endif %}{% if not line.has_visible_field %} hidden{% endif %}{% for field in line %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% endfor %}">
       <div class="form-row">
         {% for field in line %}
-        <div class="{% if not (line.fields|length == 1) %} col-auto {% else %} col-sm-3 {% endif %}">
+        <div class="{% if field_count != 1 %} col-auto {% else %} col-sm-3 {% endif %}">
           <label class="text-left" for="id_{{ field.field.name }}">
             {{ field.field.label|capfirst }}
             {% if field.field.field.required %}
@@ -110,7 +59,7 @@
             {% endif %}
           </label>
         </div>
-        <div class="{% if not (line.fields|length == 1) %} col-auto fieldBox {% else %} col-sm-7 {% endif %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}">
+        <div class="{% if field_count != 1 %} col-auto fieldBox {% else %} col-sm-7 {% endif %}{% if field.field.name %} field-{{ field.field.name }}{% endif %}">
           {% if field.is_readonly %}
           <div class="readonly">{{ field.contents }}</div>
           {% else %}
@@ -128,6 +77,7 @@
         {% endfor %}
       </div>
     </div>
+    {% endwith %}
     {% endfor %}
   </fieldset>
 {% endfor %}
