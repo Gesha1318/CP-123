@@ -191,6 +191,28 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+/* Field wrapper layout */
+.field-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.field-label .required {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.field-content {
+    flex: 1;
+}
+
 /* Labels */
 .form-group label {
     font-weight: 600;
@@ -562,5 +584,9 @@ fieldset.module h2 {
     .action-btn {
         width: 100%;
         text-align: center;
+    }
+    
+    .field-wrapper {
+        flex-direction: column;
     }
 }
