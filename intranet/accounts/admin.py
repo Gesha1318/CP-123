@@ -5,8 +5,14 @@ from .models import Role, SectionMembership
 
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):
-	list_display = ("name", "description")
-	search_fields = ("name",)
+	list_display = ("name", "description", "created_at")
+	search_fields = ("name", "description")
+	list_filter = ("created_at",)
+	ordering = ("name",)
+	
+	# Use custom templates for beautiful styling
+	change_form_template = "admin/custom_form.html"
+	change_list_template = "admin/custom_change_list.html"
 
 
 class SectionMembershipInline(admin.TabularInline):
@@ -18,10 +24,14 @@ class SectionMembershipInline(admin.TabularInline):
 
 @admin.register(SectionMembership)
 class SectionMembershipAdmin(admin.ModelAdmin):
-	list_display = ("user", "section", "permission", "role", "created_at")
-	list_filter = ("permission", "section")
-	search_fields = ("user__username", "section__name")
-	autocomplete_fields = ("user", "section", "role")
+	list_display = ("user", "section", "role", "joined_at")
+	list_filter = ("section", "role", "joined_at")
+	search_fields = ("user__username", "section__name", "role__name")
+	ordering = ("-joined_at",)
+	
+	# Use custom templates for beautiful styling
+	change_form_template = "admin/custom_form.html"
+	change_list_template = "admin/custom_change_list.html"
 
 
 # Attach inline to User admin for quick permission editing

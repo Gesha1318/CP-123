@@ -243,9 +243,6 @@ JAZZMIN_SETTINGS = {
         "auth.user": "collapsible",
         "auth.group": "vertical_tabs",
     },
-    # Restore custom templates for beautiful admin
-    "change_form_template": "admin/custom_form.html",
-    "change_list_template": "admin/custom_change_list.html",
 }
 
 JAZZMIN_UI_TWEAKS = {

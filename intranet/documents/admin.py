@@ -4,22 +4,24 @@ from .models import Article, File
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-	list_display = ("title", "section", "is_published", "created_at")
-	list_filter = ("section", "is_published")
-	search_fields = ("title", "slug", "content")
+	list_display = ("title", "section", "author", "is_published", "created_at")
+	list_filter = ("section", "is_published", "created_at", "author")
+	search_fields = ("title", "content", "section__name", "author__username")
 	prepopulated_fields = {"slug": ("title",)}
-	autocomplete_fields = ("section", "author")
-	fieldsets = (
-		(None, {"fields": ("section", "title", "slug", "is_published")}),
-		("Содержимое", {"fields": ("content",)}),
-		("Автор", {"fields": ("author",)}),
-	)
+	ordering = ("-created_at",)
+	
+	# Use custom templates for beautiful styling
+	change_form_template = "admin/custom_form.html"
+	change_list_template = "admin/custom_change_list.html"
 
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-	list_display = ("title", "section", "created_at")
-	list_filter = ("section",)
-	search_fields = ("title",)
-	autocomplete_fields = ("section", "uploaded_by")
-	fields = ("section", "title", "file", "uploaded_by")
+	list_display = ("name", "article", "file", "uploaded_at")
+	list_filter = ("uploaded_at", "article__section")
+	search_fields = ("name", "article__title")
+	ordering = ("-uploaded_at",)
+	
+	# Use custom templates for beautiful styling
+	change_form_template = "admin/custom_form.html"
+	change_list_template = "admin/custom_change_list.html"
