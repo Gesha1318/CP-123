@@ -1,0 +1,104 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}">
+  <style>
+    .object-tools {
+        margin-bottom: 1rem;
+    }
+    .object-tools a {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.15s ease-in-out;
+    }
+    .object-tools a:hover {
+        background-color: #0056b3;
+        color: white;
+        text-decoration: none;
+    }
+    .object-tools a.addlink {
+        background-color: #28a745;
+    }
+    .object-tools a.addlink:hover {
+        background-color: #1e7e34;
+    }
+    .results {
+        margin-top: 1rem;
+    }
+    .results table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .results th {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+    }
+    .results td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: top;
+    }
+    .results tr:hover {
+        background-color: #f8f9fa;
+    }
+    .field-get_absolute_url a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .field-get_absolute_url a:hover {
+        text-decoration: underline;
+    }
+    .field-is_published .true {
+        color: #28a745;
+        font-weight: 600;
+    }
+    .field-is_published .false {
+        color: #dc3545;
+        font-weight: 600;
+    }
+    .field-is_private .true {
+        color: #ffc107;
+        font-weight: 600;
+    }
+    .field-is_private .false {
+        color: #6c757d;
+    }
+  </style>
+{% endblock %}
+
+{% block object-tools %}
+  {% if has_add_permission %}
+    <ul class="object-tools">
+      {% block object-tools-items %}
+        {% url cl.opts|admin_urlname:'add' as add_url %}
+        <li>
+          <a href="{% add_preserved_filters add_url is_popup to_field %}" class="addlink">
+            {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+          </a>
+        </li>
+      {% endblock %}
+    </ul>
+  {% endif %}
+{% endblock %}
+
+{% block result_list %}
+    {% if action_form and actions_on_top and cl.show_admin_actions %}{% admin_actions %}{% endif %}
+    {% result_list cl %}
+    {% if action_form and actions_on_bottom and cl.show_admin_actions %}{% admin_actions %}{% endblock %}
+{% endblock %}
+
+{% block pagination %}
+    {% pagination cl %}
+{% endblock %}
