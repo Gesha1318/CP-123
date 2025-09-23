@@ -16,6 +16,10 @@ class SectionAdmin(admin.ModelAdmin):
 	search_fields = ("name", "slug")
 	prepopulated_fields = {"slug": ("name",)}
 	inlines = [ChildSectionInline]
+	list_filter = ("is_private",)
+	ordering = ("name",)
+	save_on_top = True
+	list_per_page = 25
 	
 	# Use specific custom templates for beautiful styling
 	change_form_template = "admin/sections/section/change_form.html"

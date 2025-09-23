@@ -9,6 +9,9 @@ class ArticleAdmin(admin.ModelAdmin):
 	search_fields = ("title", "content", "section__name", "author__username")
 	prepopulated_fields = {"slug": ("title",)}
 	ordering = ("-created_at",)
+	date_hierarchy = "created_at"
+	save_on_top = True
+	list_per_page = 25
 	
 	# Use specific custom templates for beautiful styling
 	change_form_template = "admin/documents/article/change_form.html"
@@ -17,10 +20,13 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(File)
 class FileAdmin(admin.ModelAdmin):
-	list_display = ("name", "article", "file", "uploaded_at")
-	list_filter = ("uploaded_at", "article__section")
-	search_fields = ("name", "article__title")
-	ordering = ("-uploaded_at",)
+	list_display = ("title", "section", "file", "created_at")
+	list_filter = ("created_at", "section")
+	search_fields = ("title", "section__name")
+	ordering = ("-created_at",)
+	date_hierarchy = "created_at"
+	save_on_top = True
+	list_per_page = 25
 	
 	# Use specific custom templates for beautiful styling
 	change_form_template = "admin/documents/file/change_form.html"
