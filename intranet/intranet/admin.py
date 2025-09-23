@@ -23,19 +23,4 @@ admin.site.site_header = "Интранет - Администрирование"
 admin.site.site_title = "Интранет"
 admin.site.index_title = "Добро пожаловать в панель управления Интранет"
 
-# Register models with default admin site
-from accounts.models import Role, SectionMembership
-from sections.models import Section
-from documents.models import Article, File
-
-# Import admin classes
-from accounts.admin import RoleAdmin, SectionMembershipAdmin
-from sections.admin import SectionAdmin
-from documents.admin import ArticleAdmin, FileAdmin
-
-# Register with default admin site
-admin.site.register(Role, RoleAdmin)
-admin.site.register(SectionMembership, SectionMembershipAdmin)
-admin.site.register(Section, SectionAdmin)
-admin.site.register(Article, ArticleAdmin)
-admin.site.register(File, FileAdmin)
+# Remove duplicate registrations; apps handle their own admin registrations
