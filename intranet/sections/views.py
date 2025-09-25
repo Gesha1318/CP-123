@@ -66,8 +66,31 @@ def section_members(request, slug):
 		return render(request, '403.html', status=403)
 	if request.method == 'POST':
 		user_id = request.POST.get('user_id')
-		permission = request.POST.get('permission')
-		if user_id and permission in [SectionMembership.PERMISSION_VIEW, SectionMembership.PERMISSION_EDIT, SectionMembership.PERMISSION_MANAGE]:
-			SectionMembership.objects.get_or_create(user_id=user_id, section=section, defaults={'permission': permission})
-			messages.success(request, 'Права обновлены')
-	return render(request, 'sections/section_members.html', { 'section': section, 'members': SectionMembership.objects.filter(section=section) })
+		action = request.POST.get('action')
+		
+		if action == 'delete' and user_id:
+			# Удаление прав доступа
+			membership = SectionMembership.objects.filter(user_id=user_id, section=section).first()
+			if membership:
+				membership.delete()
+				messages.success(request, 'Права доступа удалены')
+		else:
+			# Добавление/обновление прав доступа
+			permission = request.POST.get('permission')
+			if user_id and permission in [SectionMembership.PERMISSION_VIEW, SectionMembership.PERMISSION_EDIT, SectionMembership.PERMISSION_MANAGE]:
+				membership, created = SectionMembership.objects.get_or_create(
+					user_id=user_id, 
+					section=section, 
+					defaults={'permission': permission}
+				)
+				if not created:
+					membership.permission = permission
+					membership.save()
+				messages.success(request, 'Права обновлены')
+			else:
+				messages.error(request, 'Пожалуйста, укажите корректные данные')
+				
+	return render(request, 'sections/section_members.html', { 
+		'section': section, 
+		'members': SectionMembership.objects.filter(section=section).select_related('user', 'role') 
+	})

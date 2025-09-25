@@ -35,6 +35,14 @@
 			<td>{{ m.role }}</td>
 			<td>{{ m.get_permission_display }}</td>
 			<td>{{ m.created_at|date:"d.m.Y H:i" }}</td>
+			<td>
+				<form method="post" style="display: inline;">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ m.user.id }}">
+					<input type="hidden" name="action" value="delete">
+					<button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+				</form>
+			</td>
 		</tr>
 	{% empty %}
 		<tr><td colspan="4" class="text-muted">Нет данных</td></tr>
